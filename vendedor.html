@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>FREECOM.COM - História do Empreendedor</title>
+  <!-- Bootstrap 5 CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+  <style>
+    :root { --primary-color: #2e7d32; }
+    .bg-freecom { background-color: var(--primary-color); }
+    .profile-cover { height: 200px; background: linear-gradient(135deg, #a8e063, #56ab2f); border-radius: 16px; }
+    .profile-avatar { width: 140px; height: 140px; object-fit: cover; border-radius: 50%; border: 4px solid #fff; margin-top: -70px; }
+    .btn-whatsapp { background-color: #25d366; color: white; border: none; }
+    .btn-whatsapp:hover { background-color: #128c7e; color: white; }
+  </style>
+</head>
+<body class="bg-light">
+
+  <!-- Navbar -->
+  <nav class="navbar navbar-expand-lg navbar-dark bg-freecom sticky-top shadow-sm">
+    <div class="container">
+      <a class="navbar-brand fw-bold fs-3" href="../index.html">
+        <i class="bi bi-shop me-2"></i>FREECOM<span class="text-warning">.COM</span>
+      </a>
+      <a class="btn btn-outline-light btn-sm" href="../index.html"><i class="bi bi-arrow-left"></i> Voltar ao Marketplace</a>
+    </div>
+  </nav>
+
+  <main class="container my-4" id="mainContainer">
+    <!-- Informações do Anunciante -->
+    <div class="card border-0 shadow-sm rounded-4 overflow-hidden mb-4">
+      <div class="profile-cover"></div>
+      <div class="card-body px-4 pb-4">
+        <div class="d-flex flex-column flex-md-row align-items-center align-items-md-end text-center text-md-start mb-3">
+          <img id="vendedorFoto" src="" class="profile-avatar shadow mb-3 mb-md-0 me-md-4" alt="Foto Vendedor">
+          <div class="flex-grow-1">
+            <span id="vendedorCategoria" class="badge bg-success mb-2"></span>
+            <h2 id="vendedorNome" class="fw-bold mb-1"></h2>
+            <p class="text-muted mb-0"><i class="bi bi-geo-alt-fill text-danger me-1"></i><span id="vendedorCidade"></span></p>
+          </div>
+          <div class="mt-3 mt-md-0">
+            <button id="btnWhatsappHeader" class="btn btn-whatsapp btn-lg fw-bold rounded-pill px-4 shadow-sm" onclick="registrarCliqueWhats()">
+              <i class="bi bi-whatsapp me-2"></i>Falar no WhatsApp
+            </button>
+          </div>
+        </div>
+
+        <hr class="my-4">
+
+        <div class="row gy-4">
+          <!-- História e Origem -->
+          <div class="col-lg-8">
+            <h4 class="fw-bold text-success mb-3"><i class="bi bi-book me-2"></i>Nossa História & Origem</h4>
+            <p id="vendedorHistoria" class="lead text-secondary fs-6" style="line-height: 1.8;"></p>
+            
+            <h4 class="fw-bold text-success mt-4 mb-3"><i class="bi bi-grid-fill me-2"></i>Produtos & Serviços Oferecidos</h4>
+            <div class="table-responsive">
+              <table class="table table-hover align-middle border">
+                <thead class="table-light">
+                  <tr>
+                    <th>Item</th>
+                    <th class="text-end">Preço Estimado</th>
+                    <th class="text-center">Ação</th>
+                  </tr>
+                </thead>
+                <tbody id="tabelaItens">
+                  <!-- Injetado por JS -->
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <!-- Card do QR Code & Estatísticas -->
+          <div class="col-lg-4">
+            <div class="card border-0 bg-white shadow-sm p-3 text-center mb-4 rounded-3">
+              <h5 class="fw-bold text-dark mb-2"><i class="bi bi-qr-code me-2"></i>QR Code do Empreendedor</h5>
+              <p class="small text-muted mb-3">Escaneie para acessar ou compartilhar este perfil diretamente</p>
+              <div class="bg-light p-3 rounded-3 d-inline-block mx-auto mb-2">
+                <img id="qrCodeImg" src="" alt="QR Code" class="img-fluid" style="max-width: 180px;">
+              </div>
+              <p class="small fw-semibold text-success mb-0" id="qrCodeUrlText"></p>
+            </div>
+
+            <!-- Card de Estatísticas Públicas -->
+            <div class="card border-0 bg-white shadow-sm p-3 rounded-3">
+              <h6 class="fw-bold text-muted mb-3"><i class="bi bi-graph-up me-2"></i>Engajamento na Plataforma</h6>
+              <div class="d-flex justify-content-between align-items-center mb-2">
+                <span class="small text-muted"><i class="bi bi-eye me-1"></i> Visualizações:</span>
+                <span class="fw-bold" id="statAcessos">0</span>
+              </div>
+              <div class="d-flex justify-content-between align-items-center">
+                <span class="small text-muted"><i class="bi bi-chat-dots me-1"></i> Contatos no WhatsApp:</span>
+                <span class="fw-bold text-success" id="statWhats">0</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <script src="../js/data.js"></script>
+  <script>
+    let vendedorAtual = null;
+
+    function carregarPerfil() {
+      const urlParams = new URLSearchParams(window.location.search);
+      const id = urlParams.get('id');
+      const lista = getAnunciantes();
+      
+      vendedorAtual = lista.find(v => v.id === id);
+
+      if (!vendedorAtual) {
+        document.getElementById('mainContainer').innerHTML = `
+          <div class="alert alert-warning text-center py-5">
+            <h4>Anunciante não encontrado!</h4>
+            <a href="../index.html" class="btn btn-success mt-3">Voltar ao Marketplace</a>
+          </div>`;
+        return;
+      }
+
+      // Incrementar acesso
+      vendedorAtual.estatisticas.acessos = (vendedorAtual.estatisticas.acessos || 0) + 1;
+      saveAnunciantes(lista);
+
+      // Preencher Dados
+      document.title = `${vendedorAtual.nome} - FREECOM.COM`;
+      document.getElementById('vendedorFoto').src = vendedorAtual.foto;
+      document.getElementById('vendedorNome').innerText = vendedorAtual.nome;
+      document.getElementById('vendedorCategoria').innerText = vendedorAtual.categoria;
+      document.getElementById('vendedorCidade').innerText = vendedorAtual.cidade;
+      document.getElementById('vendedorHistoria').innerText = vendedorAtual.historia;
+      
+      document.getElementById('statAcessos').innerText = vendedorAtual.estatisticas.acessos;
+      document.getElementById('statWhats').innerText = vendedorAtual.estatisticas.cliquesWhatsapp;
+
+      // Gerar QR Code usando a URL atual
+      const currentUrl = window.location.href;
+      document.getElementById('qrCodeImg').src = `https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=${encodeURIComponent(currentUrl)}`;
+      document.getElementById('qrCodeUrlText').innerText = `freecom.com/${vendedorAtual.id}`;
+
+      // Renderizar Ofertas
+      const tabela = document.getElementById('tabelaItens');
+      tabela.innerHTML = '';
+      vendedorAtual.itens.forEach(item => {
+        tabela.innerHTML += `
+          <tr>
+            <td class="fw-semibold">${item.nome}</td>
+            <td class="text-end text-success fw-bold">R$ ${item.preco.toFixed(2).replace('.', ',')}</td>
+            <td class="text-center">
+              <button class="btn btn-sm btn-outline-success rounded-pill" onclick="registrarCliqueWhats('${item.nome}')">
+                <i class="bi bi-whatsapp"></i> Pedir
+              </button>
+            </td>
+          </tr>`;
+      });
+    }
+
+    function registrarCliqueWhats(nomeItem = '') {
+      if (!vendedorAtual) return;
+
+      const lista = getAnunciantes();
+      const index = lista.findIndex(v => v.id === vendedorAtual.id);
+      if (index !== -1) {
+        lista[index].estatisticas.cliquesWhatsapp = (lista[index].estatisticas.cliquesWhatsapp || 0) + 1;
+        saveAnunciantes(lista);
+      }
+
+      let mensagem = `Olá ${vendedorAtual.nome}, vi seu perfil no FREECOM.COM!`;
+      if (nomeItem) {
+        mensagem += ` Tenho interesse no item: *${nomeItem}*.`;
+      }
+      const linkWhats = `https://wa.me/${vendedorAtual.whatsapp}?text=${encodeURIComponent(mensagem)}`;
+      window.open(linkWhats, '_blank');
+    }
+
+    document.addEventListener('DOMContentLoaded', carregarPerfil);
+  </script>
+</body>
+</html>
