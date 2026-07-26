@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>FREECOM.COM - Painel Administrativo</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+  <style>
+    :root { --primary-color: #2e7d32; }
+    body { min-height: 100vh; background-color: #f8f9fa; }
+    .sidebar { min-height: 100vh; background-color: #1b5e20; color: white; }
+    .sidebar .nav-link { color: rgba(255,255,255,0.8); border-radius: 8px; margin-bottom: 4px; }
+    .sidebar .nav-link:hover, .sidebar .nav-link.active { color: white; background-color: rgba(255,255,255,0.15); }
+    .stat-card { border: none; border-radius: 12px; transition: transform 0.2s; }
+    .stat-card:hover { transform: translateY(-3px); }
+  </style>
+</head>
+<body>
+
+  <div class="container-fluid">
+    <div class="row">
+      <!-- Sidebar -->
+      <nav class="col-md-3 col-lg-2 d-md-block sidebar collapse p-3">
+        <a href="../index.html" class="d-flex align-items-center mb-4 text-white text-decoration-none fs-4 fw-bold">
+          <i class="bi bi-shop me-2"></i> FREECOM<span class="text-warning">.ADM</span>
+        </a>
+        <ul class="nav nav-pills flex-column mb-auto">
+          <li class="nav-item">
+            <a href="#" class="nav-link active"><i class="bi bi-speedometer2 me-2"></i> Dashboard</a>
+          </li>
+          <li>
+            <a href="#vendedoresSection" class="nav-link"><i class="bi bi-people me-2"></i> Vendedores</a>
+          </li>
+        </ul>
+        <hr>
+        <a href="../index.html" class="btn btn-outline-light w-100 btn-sm"><i class="bi bi-box-arrow-left me-1"></i> Ver Marketplace</a>
+      </nav>
+
+      <!-- Conteúdo Principal -->
+      <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4 py-4">
+        <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pb-2 mb-4 border-bottom">
+          <h1 class="h2 text-dark fw-bold">Visão Geral do Sistema</h1>
+          <button class="btn btn-success fw-bold" onclick="abrirModalVendedor()"><i class="bi bi-plus-lg me-1"></i> Novo Anunciante</button>
+        </div>
+
+        <!-- Cards de Estatísticas -->
+        <div class="row g-3 mb-4">
+          <div class="col-12 col-sm-6 col-xl-3">
+            <div class="card stat-card bg-primary text-white p-3 shadow-sm">
+              <div class="d-flex justify-content-between align-items-center">
+                <div>
+                  <h6 class="text-white-50">Total Vendedores</h6>
+                  <h3 class="fw-bold mb-0" id="dashTotalVendedores">0</h3>
+                </div>
+                <i class="bi bi-people-fill fs-1 opacity-50"></i>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-12 col-sm-6 col-xl-3">
+            <div class="card stat-card bg-success text-white p-3 shadow-sm">
+              <div class="d-flex justify-content-between align-items-center">
+                <div>
+                  <h6 class="text-white-50">Total Ofertas/Itens</h6>
+                  <h3 class="fw-bold mb-0" id="dashTotalItens">0</h3>
+                </div>
+                <i class="bi bi-box-seam-fill fs-1 opacity-50"></i>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-12 col-sm-6 col-xl-3">
+            <div class="card stat-card bg-warning text-dark p-3 shadow-sm">
+              <div class="d-flex justify-content-between align-items-center">
+                <div>
+                  <h6 class="text-dark-50">Visualizações Totais</h6>
+                  <h3 class="fw-bold mb-0" id="dashTotalAcessos">0</h3>
+                </div>
+                <i class="bi bi-eye-fill fs-1 opacity-50"></i>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-12 col-sm-6 col-xl-3">
+            <div class="card stat-card bg-info text-white p-3 shadow-sm">
+              <div class="d-flex justify-content-between align-items-center">
+                <div>
+                  <h6 class="text-white-50">Cliques WhatsApp</h6>
+                  <h3 class="fw-bold mb-0" id="dashTotalWhats">0</h3>
+                </div>
+                <i class="bi bi-whatsapp fs-1 opacity-50"></i>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Tabela CRUD de Vendedores -->
+        <div class="card border-0 shadow-sm mb-4" id="vendedoresSection">
+          <div class="card-header bg-white py-3">
+            <h5 class="fw-bold mb-0 text-dark"><i class="bi bi-table me-2"></i>Gerenciar Anunciantes Locais</h5>
+          </div>
+          <div class="card-body p-0">
+            <div class="table-responsive">
+              <table class="table table-striped align-middle mb-0">
+                <thead class="table-light">
+                  <tr>
+                    <th>Empreendedor</th>
+                    <th>Categoria</th>
+                    <th>Cidade</th>
+                    <th>Ofertas</th>
+                    <th>Acessos</th>
+                    <th class="text-end px-4">Ações</th>
+                  </tr>
+                </thead>
+                <tbody id="tabelaAdminVendedores">
+                  <!-- Injetado por JS -->
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </main>
+    </div>
+  </div>
+
+  <!-- Modal Cadastro/Edição de Vendedor -->
+  <div class="modal fade" id="modalVendedor" tabindex="-1">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <div class="modal-header bg-success text-white">
+          <h5 class="modal-title fw-bold" id="modalVendedorTitle">Cadastrar Anunciante</h5>
+          <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+        </div>
+        <div class="modal-body">
+          <form id="formVendedor">
+            <input type="hidden" id="vendedorId">
+            <div class="row g-3">
+              <div class="col-md-6">
+                <label class="form-label fw-semibold">Nome Completo / Estabelecimento</label>
+                <input type="text" id="inputNome" class="form-control" required placeholder="Ex: Dona Maria - Cucas">
+              </div>
+              <div class="col-md-6">
+                <label class="form-label fw-semibold">Categoria</label>
+                <select id="selectCategoria" class="form-select" required>
+                  <option value="Padaria Artesanal">Padaria Artesanal</option>
+                  <option value="Produtos Coloniais">Produtos Coloniais</option>
+                  <option value="Serviços">Serviços</option>
+                  <option value="Alimentação">Alimentação</option>
+                </select>
+              </div>
+              <div class="col-md-6">
+                <label class="form-label fw-semibold">Cidade/Região</label>
+                <input type="text" id="inputCidade" class="form-control" required value="Igrejinha">
+              </div>
+              <div class="col-md-6">
+                <label class="form-label fw-semibold">WhatsApp (somente números)</label>
+                <input type="text" id="inputWhatsapp" class="form-control" required placeholder="5551999999999">
+              </div>
+              <div class="col-12">
+                <label class="form-label fw-semibold">URL da Foto de Perfil</label>
+                <input type="url" id="inputFoto" class="form-control" required placeholder="https://exemplo.com/foto.jpg">
+              </div>
+              <div class="col-12">
+                <label class="form-label fw-semibold">História Pessoal / Origem do Negócio</label>
+                <textarea id="inputHistoria" class="form-control" rows="3" required placeholder="Conte a trajetória do vendedor..."></textarea>
+              </div>
+            </div>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+          <button type="button" class="btn btn-success fw-bold" onclick="salvarVendedor()">Salvar Registro</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Scripts -->
+  <script src="../js/data.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  <script>
+    let bsModal = null;
+
+    function atualizarDashboard() {
+      const lista = getAnunciantes();
+
+      const totalVendedores = lista.length;
+      const totalItens = lista.reduce((acc, curr) => acc + (curr.itens ? curr.itens.length : 0), 0);
+      const totalAcessos = lista.reduce((acc, curr) => acc + (curr.estatisticas ? curr.estatisticas.acessos : 0), 0);
+      const totalWhats = lista.reduce((acc, curr) => acc + (curr.estatisticas ? curr.estatisticas.cliquesWhatsapp : 0), 0);
+
+      document.getElementById('dashTotalVendedores').innerText = totalVendedores;
+      document.getElementById('dashTotalItens').innerText = totalItens;
+      document.getElementById('dashTotalAcessos').innerText = totalAcessos;
+      document.getElementById('dashTotalWhats').innerText = totalWhats;
+
+      // Renderizar Tabela Admin
+      const tabela = document.getElementById('tabelaAdminVendedores');
+      tabela.innerHTML = '';
+
+      lista.forEach(item => {
+        tabela.innerHTML += `
+          <tr>
+            <td>
+              <div class="d-flex align-items-center">
+                <img src="${item.foto}" class="rounded-circle me-2" style="width:40px; height:40px; object-fit:cover;">
+                <span class="fw-semibold">${item.nome}</span>
+              </div>
+            </td>
+            <td><span class="badge bg-light text-dark border">${item.categoria}</span></td>
+            <td>${item.cidade}</td>
+            <td><span class="badge bg-secondary">${item.itens.length} ofertas</span></td>
+            <td>${item.estatisticas.acessos}</td>
+            <td class="text-end px-4">
+              <a href="../pages/vendedor.html?id=${item.id}" target="_blank" class="btn btn-sm btn-outline-secondary me-1"><i class="bi bi-eye"></i></a>
+              <button class="btn btn-sm btn-outline-primary me-1" onclick="editarVendedor('${item.id}')"><i class="bi bi-pencil"></i></button>
+              <button class="btn btn-sm btn-outline-danger" onclick="excluirVendedor('${item.id}')"><i class="bi bi-trash"></i></button>
+            </td>
+          </tr>
+        `;
+      });
+    }
+
+    function abrirModalVendedor() {
+      document.getElementById('formVendedor').reset();
+      document.getElementById('vendedorId').value = '';
+      document.getElementById('modalVendedorTitle').innerText = 'Cadastrar Anunciante';
+      bsModal.show();
+    }
+
+    function editarVendedor(id) {
+      const lista = getAnunciantes();
+      const item = lista.find(v => v.id === id);
+      if (!item) return;
+
+      document.getElementById('vendedorId').value = item.id;
+      document.getElementById('inputNome').value = item.nome;
+      document.getElementById('selectCategoria').value = item.categoria;
+      document.getElementById('inputCidade').value = item.cidade;
+      document.getElementById('inputWhatsapp').value = item.whatsapp;
+      document.getElementById('inputFoto').value = item.foto;
+      document.getElementById('inputHistoria').value = item.historia;
+
+      document.getElementById('modalVendedorTitle').innerText = 'Editar Anunciante';
+      bsModal.show();
+    }
+
+    function salvarVendedor() {
+      const id = document.getElementById('vendedorId').value;
+      const nome = document.getElementById('inputNome').value;
+      const categoria = document.getElementById('selectCategoria').value;
+      const cidade = document.getElementById('inputCidade').value;
+      const whatsapp = document.getElementById('inputWhatsapp').value;
+      const foto = document.getElementById('inputFoto').value;
+      const historia = document.getElementById('inputHistoria').value;
+
+      if (!nome || !whatsapp || !foto || !historia) {
+        alert('Por favor, preencha todos os campos obrigatórios!');
+        return;
+      }
+
+      let lista = getAnunciantes();
+
+      if (id) {
+        // Update
+        const index = lista.findIndex(v => v.id === id);
+        if (index !== -1) {
+          lista[index].nome = nome;
+          lista[index].categoria = categoria;
+          lista[index].cidade = cidade;
+          lista[index].whatsapp = whatsapp;
+          lista[index].foto = foto;
+          lista[index].historia = historia;
+        }
+      } else {
+        // Create
+        const novoId = nome.toLowerCase().replace(/[^a-z0-9]/g, '-');
+        const novoVendedor = {
+          id: novoId,
+          nome,
+          categoria,
+          tipo: categoria === 'Serviços' ? 'servico' : 'produto',
+          cidade,
+          whatsapp,
+          foto,
+          historia,
+          estatisticas: { acessos: 0, cliquesWhatsapp: 0, favoritos: 0 },
+          itens: []
+        };
+        lista.push(novoVendedor);
+      }
+
+      saveAnunciantes(lista);
+      bsModal.hide();
+      atualizarDashboard();
+    }
+
+    function excluirVendedor(id) {
+      if (confirm('Tem certeza que deseja excluir este anunciante?')) {
+        let lista = getAnunciantes();
+        lista = lista.filter(v => v.id !== id);
+        saveAnunciantes(lista);
+        atualizarDashboard();
+      }
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+      bsModal = new bootstrap.Modal(document.getElementById('modalVendedor'));
+      atualizarDashboard();
+    });
+  </script>
+</body>
+</html>
