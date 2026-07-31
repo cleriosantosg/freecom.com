@@ -8,7 +8,7 @@ const initialData = [
     tipo: "produto",
     cidade: "Igrejinha",
     whatsapp: "5551999999991",
-    foto: "https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=400&auto=format&fit=crop&q=80",
+    foto: ""imagens/Maria.avif",
     historia: "Dona Maria produz cucas seguindo receitas familiares aprendidas com sua avó. Sua produção começou pequena e cresceu através das encomendas da comunidade.",
     estatisticas: { acessos: 342, cliquesWhatsapp: 89, favoritos: 45 },
     itens: [
@@ -26,7 +26,7 @@ const initialData = [
     tipo: "produto",
     cidade: "Igrejinha",
     whatsapp: "5551999999992",
-    foto: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&auto=format&fit=crop&q=80",
+    foto: "imagens/Paulo.webp",
     historia: "Seu Paulo trabalha valorizando agricultores locais, oferecendo produtos frescos e tradicionais da região.",
     estatisticas: { acessos: 512, cliquesWhatsapp: 120, favoritos: 78 },
     itens: [
@@ -44,7 +44,7 @@ const initialData = [
     tipo: "servico",
     cidade: "Igrejinha",
     whatsapp: "5551999999993",
-    foto: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=400&auto=format&fit=crop&q=80",
+    foto: "imagens/Ismael.jpg",
     historia: "Ismael possui mais de dez anos de experiência como barbeiro, oferecendo cortes modernos e atendimento personalizado.",
     estatisticas: { acessos: 280, cliquesWhatsapp: 95, favoritos: 31 },
     itens: [
@@ -61,13 +61,27 @@ const initialData = [
     tipo: "produto",
     cidade: "Igrejinha",
     whatsapp: "5551999999994",
-    foto: "https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?w=400&auto=format&fit=crop&q=80",
+    foto: "imagens/Juca.webp",
     historia: "Todos os dias Juca está na praça oferecendo pipocas doces e salgadas, com coberturas, cores e enfeites especiais.",
     estatisticas: { acessos: 620, cliquesWhatsapp: 140, favoritos: 110 },
     itens: [
       { nome: "Pipoca Salgada", preco: 8.00 },
       { nome: "Pipoca Doce Colorida", preco: 10.00 },
       { nome: "Pipoca Gourmet c/ Chocolate", preco: 15.00 }
+      {
+    id: "jason-picadinho",
+    nome: "Jason",
+    categoria: "Alimentação",
+    tipo: "produto",
+    cidade: "Igrejinha",
+    whatsapp: "5551999999999",
+    foto: "imagens/Jason.jpg",
+    historia: "Existe muitas histórias mal contadas do nosso querido Jason, tudo calúnia; a verdade é que Jason faz o melhor picadinho do mundo.",
+    estatisticas: { acessos: 620, cliquesWhatsapp: 140, favoritos: 110 },
+    itens: [
+      { nome: "Picadinho de Lingua", preco: 28.00 },
+      { nome: "Picadinho de coração e fígado", preco: 30.00 },
+      { nome: "Picadinho de mão e pés", preco: 25.00 }
     ]
   }
 ];
