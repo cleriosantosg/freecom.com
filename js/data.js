@@ -1,5 +1,7 @@
 // js/data.js
 
+const STORAGE_KEY = 'freecom_anunciantes';
+
 const initialData = [
   {
     id: "dona-maria",
@@ -68,7 +70,9 @@ const initialData = [
       { nome: "Pipoca Salgada", preco: 8.00 },
       { nome: "Pipoca Doce Colorida", preco: 10.00 },
       { nome: "Pipoca Gourmet c/ Chocolate", preco: 15.00 }
-      {
+    ]
+  },
+  {
     id: "jason-picadinho",
     nome: "Jason",
     categoria: "Alimentação",
@@ -86,18 +90,39 @@ const initialData = [
   }
 ];
 
-// Inicializar dados no localStorage
 function initStorage() {
-  if (!localStorage.getItem('freecom_anunciantes')) {
-    localStorage.setItem('freecom_anunciantes', JSON.stringify(initialData));
+  const storedValue = localStorage.getItem(STORAGE_KEY);
+
+  if (!storedValue) {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(initialData));
+    return;
+  }
+
+  try {
+    const storedData = JSON.parse(storedValue);
+    if (!Array.isArray(storedData)) {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(initialData));
+      return;
+    }
+
+    const missingItems = initialData.filter(defaultItem =>
+      !storedData.some(item => item.id === defaultItem.id)
+    );
+
+    if (missingItems.length > 0) {
+      const mergedData = [...storedData, ...missingItems];
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(mergedData));
+    }
+  } catch (error) {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(initialData));
   }
 }
 
 function getAnunciantes() {
   initStorage();
-  return JSON.parse(localStorage.getItem('freecom_anunciantes'));
+  return JSON.parse(localStorage.getItem(STORAGE_KEY));
 }
 
 function saveAnunciantes(data) {
-  localStorage.setItem('freecom_anunciantes', JSON.stringify(data));
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
 }
