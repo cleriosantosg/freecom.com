@@ -8,7 +8,7 @@ const initialData = [
     tipo: "produto",
     cidade: "Igrejinha",
     whatsapp: "5551999999991",
-    foto: ""imagens/Maria.avif",
+    foto: "imagens/Maria.avif",
     historia: "Dona Maria produz cucas seguindo receitas familiares aprendidas com sua avó. Sua produção começou pequena e cresceu através das encomendas da comunidade.",
     estatisticas: { acessos: 342, cliquesWhatsapp: 89, favoritos: 45 },
     itens: [
