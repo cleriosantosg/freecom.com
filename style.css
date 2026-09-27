@@ -1,0 +1,87 @@
+/* Variáveis de Cores e Fundos */
+:root {
+  --freecom-primary: #198754;
+  --freecom-dark: #0f5132;
+  --freecom-light-bg: #f4f7f6; /* Fundo geral mais suave e limpo */
+  --freecom-card-bg: #ffffff;
+}
+
+/* Fundo geral das páginas */
+body.home-page, body {
+  background-color: var(--freecom-light-bg) !important;
+  color: #333333;
+}
+
+/* Navbar personalizada */
+.bg-freecom {
+  background: linear-gradient(135deg, #0f5132, #198754) !important;
+}
+
+/* Hero Banner com fundo mais atraente e elegante */
+.hero-banner {
+  background: linear-gradient(135deg, #e8f5e9 0%, #c8e6c9 100%);
+  border-radius: 1rem;
+  border: 1px solid #a3d9a5;
+  color: #0b3d20;
+}
+
+/* Estilização dos Cards para dar profundidade */
+.card-announcer {
+  background-color: var(--freecom-card-bg);
+  border: none;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.card-announcer:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 .5rem 1rem rgba(0,0,0,.1) !important;
+}
+
+/* Avatar do Vendedor */
+.avatar-img {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 3px solid #ffffff;
+  margin-top: -40px;
+  background-color: #fff;
+}
+
+/* Rodapé */
+footer.bg-dark {
+  background-color: #1a1e21 !important;
+}
+
+.profile-cover {
+  min-height: 120px;
+  background: linear-gradient(135deg, #0f5132, #56ab2f);
+}
+
+.profile-avatar {
+  width: 132px;
+  height: 132px;
+  margin-top: -66px;
+  border: 4px solid #fff;
+  border-radius: 50%;
+  object-fit: cover;
+  background-color: #fff;
+}
+
+.btn-whatsapp {
+  background-color: #25d366;
+  border-color: #25d366;
+  color: #fff;
+}
+
+.btn-whatsapp:hover,
+.btn-whatsapp:focus {
+  background-color: #1da851;
+  border-color: #1da851;
+  color: #fff;
+}
+
+.sidebar {
+  min-height: 100vh;
+  background: linear-gradient(180deg, #0f5132, #198754);
+}
